@@ -15,9 +15,9 @@ export default function Footer() {
                             <span>Github</span>
                         </div>
                     </div>
-                    <div className="md:col-span-1 border-l border-r md:border-l-2 border-gray-500 px-2 md:px-5 mt-2 md:mt-0">
+                    <div className="md:col-span-1 border-l border-r md:border-r-0 md:border-l-2 border-gray-500 px-2 md:px-5 mt-2 md:mt-0">
                         <h6 className="font-semibold">Footprints</h6>
-                        <p className="">{`I just love making websites and ghibli, that's all >_<`}</p>
+                        <p className="">{`I just love making websites and ghibli, that's all`}</p>
                     </div>
                 </div>
                 <ul className="mt-10 md:px-5 py-2 flex justify-center gap-4 md:gap-10 md:list-disc">

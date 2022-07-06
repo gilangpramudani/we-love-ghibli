@@ -26,20 +26,20 @@ export default function Index({ carouselImage }) {
   console.log(latest)
   return (
     <>
-      <Layout title={"Welcome to Studio Ghibli's Lover"}>
+      <Layout title={"Welcome to Web Studio Ghibli's Lover"}>
         <div>
           <Carousel infiniteLoop interval={5000} showArrows={false} showStatus={false} showThumbs={false} autoPlay swipeable={false} showIndicators={false} animationHandler={"fade"}>
-            {carousel?.slice(0, 5)?.map((value) =>
+            {carousel?.slice(0, 3)?.map((value) =>
               <div key={value.id} className="h-96 md:h-screen w-full relative">
                 <div className="absolute h-[95%] w-full">
                   <div className="absolute top-4 md:top-10 right-0 bg-yellow-200 pr-5 pl-3 py-2 md:pr-14 md:pl-10 md:py-2 z-10 border border-white">
                     <span>{value.title}</span>
                   </div>
-                  <Image src={value.movie_banner} alt={value.title} layout="fill" />
+                  <Image src={value.movie_banner} alt={value.title} layout="fill" quality={50} />
                 </div>
                 <div className="hidden absolute bottom-0 z-10 left-5 md:flex w-full gap-5  items-center">
                   <div className="h-64 w-40 relative">
-                    <Image src={value.image} alt={value.title} layout="fill" />
+                    <Image src={value.image} alt={value.title} layout="fill" quality={20} />
                   </div>
                   <div className="w-6/12 text-white bg-black bg-opacity-50 p-2">
                     {/* <p className="text-2xl font-semibold absolute top-0">{value.original_title_romanised}</p> */}
@@ -52,8 +52,8 @@ export default function Index({ carouselImage }) {
           </Carousel>
 
 
-          <div className="md:mt-40 md:px-20 mt-20">
-            <div className="bg-gray-200 w-full px-5 md:px-10 py-5">
+          <div className="md:mt-40 md:px-20 mt-20 ">
+            <div className="bg-gray-200 w-full px-5 md:px-10 py-5 relative">
               <h2 className="text-3xl">
                 About This Website
               </h2>
@@ -62,6 +62,10 @@ export default function Index({ carouselImage }) {
                 Make everyone who visits and reads this website interested in watching or repeating to see the beautifull world of Ghibli.
               </p>
               <button className="border-b-2 border-white hover:border-black ease-out transition-all duration-150 mt-2">Read more</button>
+              <div className="border-2 bg-black border-black w-5 absolute right-0 bottom-0" />
+              <div className="border-2 bg-black border-black h-5 absolute right-0 bottom-0" />
+              <div className="border-2 bg-black border-black w-5 absolute left-0 top-0" />
+              {/* <div className="border-2 border-black h-5 absolute left-0 top-0" /> */}
             </div>
           </div>
           {/* <Image src={hayaomiyazaki} alt={""} layout="fill" /> */}
@@ -96,7 +100,7 @@ export default function Index({ carouselImage }) {
           <div className="mt-20 mb-40 md:mt-20 md:mb-60">
             <h2 className="text-center text-3xl mb-5 md:mb-10">{`Studio Ghibli's Films`}</h2>
             <div className="lg:grid lg:grid-cols-3 gap-10 md:px-40 lg:px-20">
-              {latestData?.slice(0, 9)?.map((value) =>
+              {latestData?.slice(0, 6)?.map((value) =>
                 <div key={value.id} className="h-screen w-full relative transition-all duration-300 ease-in-out  hover:-translate-y-2 hover:shadow-smoothblack/50 shadow-lg">
 
                   <div className="w-full h-full absolute z-20 transition-all duration-300 ease-in-out opacity-0  px-10 py-5 
@@ -115,7 +119,7 @@ export default function Index({ carouselImage }) {
                       <p className="absolute bottom-0 text-lg">{value.release_date}</p>
                     </div>
                   </div>
-                  <Image src={value.image} alt={value.title} layout="fill" className="" />
+                  <Image src={value.image} alt={value.title} layout="fill" className="" quality={50} />
                 </div>
               )}
             </div>
