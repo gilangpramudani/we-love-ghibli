@@ -114,7 +114,7 @@ export default function Index({ carouselImage }) {
                       <p className="">Romanised: {value.original_title_romanised}</p>
                       <p className="mt-2">Director: {value.director}</p>
                       <div className="flex items-center justify-center w-full h-full">
-                        <Link href={""}><a><button className="border-2 border-whote px-5 py-2 hover:bg-white hover:text-black rounded ease-in-out transition-all duration-150">More Information</button></a></Link>
+                        <Link href={"/films/" + value.id}><a><button className="border-2 border-whote px-5 py-2 hover:bg-white hover:text-black rounded ease-in-out transition-all duration-150">More Information</button></a></Link>
                       </div>
                       <p className="absolute bottom-0 text-lg">{value.release_date}</p>
                     </div>
@@ -133,7 +133,7 @@ export default function Index({ carouselImage }) {
 }
 
 export const getServerSideProps = async () => {
-  const res = await axios.get(`https://ghibliapi.herokuapp.com/films`);
+  const res = await axios.get(`https://ghibliapi.herokuapp.com/films?limit=6`);
 
   return {
     props: { carouselImage: res.data },
