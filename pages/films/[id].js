@@ -17,37 +17,76 @@ export default function FilmDetail() {
                 axios.get(url).then((v) => v.data)
             )
     }
+    const fetcherPeople = (url) => {
+        if (id != undefined)
+            return (
+                axios.get("https://ghibliapi.herokuapp.com/people").then((v) => v.data)
+            )
+    }
+
+    const fetcherSpecies = (url) => {
+        if (id != undefined)
+            return (
+                axios.get("https://ghibliapi.herokuapp.com/species").then((v) => v.data)
+            )
+    }
+
+    const fetcherLocations = (url) => {
+        if (id != undefined)
+            return (
+                axios.get("https://ghibliapi.herokuapp.com/locations").then((v) => v.data)
+            )
+    }
+    const fetcherVehicles = (url) => {
+        if (id != undefined)
+            return (
+                axios.get("https://ghibliapi.herokuapp.com/vehicles").then((v) => v.data)
+            )
+    }
 
 
     const { data: film, error: eFilm, isValidating: iFilm } = useSWR(`https://ghibliapi.herokuapp.com/films/${id}`, fetcher)
-    const { data: people, error: ePeople, isValidating: iPeople, mutate } = useSWR(`https://ghibliapi.herokuapp.com/people`, fetcher)
+    const { data: people, error: ePeople, isValidating: iPeople, mutate } = useSWR(id, fetcherPeople)
+    const { data: species, error: eSpecies, isValidating: iSpecies, } = useSWR(id + 0, fetcherSpecies)
+    const { data: locations, error: eLocations, isValidating: iLocations, } = useSWR(id + 1, fetcherLocations)
+    const { data: vehicles, error: eVehicles, isValidating: iVehicles, } = useSWR(id + 2, fetcherVehicles)
 
 
     useEffect(() => {
-        if (film != undefined) {
-            setData({ ...data, film: film })
-        }
-
-        if (people != undefined) {
+        if (film != undefined && people != undefined && locations != undefined && vehicles != undefined) {
             const peopleFilter = people.map((v) => {
                 return v.films.filter((b) => {
                     return b == "https://ghibliapi.herokuapp.com/films/" + id
                 }).map((g) => v)
             })
             const mergedPeople = [].concat.apply([], peopleFilter);
-            setData({ ...data, people: mergedPeople })
-            console.log("90990999090")
-        } else {
-            mutate()
+
+            const locationFilter = locations.map((v) => {
+                return v.films.filter((b) => {
+                    return b == "https://ghibliapi.herokuapp.com/films/" + id
+                }).map((g) => v)
+            })
+            const mergedLocation = [].concat.apply([], locationFilter);
+
+            const vehiclesFilter = vehicles.map((v) => {
+                return v.films.filter((b) => {
+                    return b == "https://ghibliapi.herokuapp.com/films/" + id
+                }).map((g) => v)
+            })
+            const mergedVehicles = [].concat.apply([], vehiclesFilter);
+
+
+            setData({ people: mergedPeople, film: film, location: mergedLocation, vehicle: mergedVehicles })
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [film, id, people])
-    console.log(data)
+    }, [film, id, people, locations, vehicles])
+    console.log(data, "00000-0-0")
+    console.log(film, "paa")
     return (
         <>
             <Layout title={data?.film?.title}>
-                {data?.film != undefined ?
+                {data?.film != undefined && species != undefined ?
                     <div className="mt-10 mb-20">
                         <div className="">
                             <div className="px-5">
@@ -97,16 +136,20 @@ export default function FilmDetail() {
                                         <h3 className="text-2xl">List Characters</h3>
                                     </div>
                                     <div className="mt-5">
+                                        {data?.people?.length == 0 ? <p className="text-lg text-center">{`There'is no characters detail in this movie, sorry.`}</p> : ""}
+
                                         {data?.people?.map((v) => {
+                                            const spesies = v.species.replace("https://ghibliapi.herokuapp.com/species/", '')
+                                            const spesiesFound = species?.find(v => v.id == spesies)
                                             return (
-                                                <div key={v.id} className="mb-5 relative py-5">
+                                                <div key={v.id} className="mb-5 relative py-5 border-gray-500 px-4 border-b border-l">
                                                     <h4 className="font-medium">{v.name}</h4>
                                                     <hr className="my-2 bg-gray-200" />
                                                     <ul className="">
                                                         <li>
                                                             <div className="flex flex-col">
                                                                 <span>Gender: {v.gender}</span>
-                                                                <span>Age: {v.age}</span>
+                                                                <span>Age: {v.age == "" ? "NA" : v.age}</span>
                                                             </div>
                                                         </li>
                                                         <li>
@@ -117,8 +160,77 @@ export default function FilmDetail() {
                                                                 </div>
                                                             </div>
                                                         </li>
+                                                        <li>
+                                                            <div className="flex flex-col">
+                                                                <span>Species: {spesiesFound?.name ?? "NA"}</span>
+                                                            </div>
+                                                        </li>
                                                     </ul>
-                                                    <div className="absolute bg-yellow-500 w-6 h-1 bottom-0 right-0" />
+                                                    <div className="absolute bg-yellow-500 w-6 h-1 bottom-0 left-0" />
+                                                    <div className="absolute bg-gray-500 w-[1px] h-10 top-0 right-0" />
+                                                    <div className="absolute bg-yellow-500 w-3 h-1 top-0 right-0" />
+                                                </div>
+                                            )
+                                        })}
+                                    </div>
+                                </div>
+
+                                <div className="px-5 mt-14 text-justify">
+                                    <div className="border-r-4 px-2 border-blue-400">
+                                        <h3 className="text-2xl text-right">List Locations</h3>
+                                    </div>
+                                    <div className="mt-5">
+                                        {data?.location?.length == 0 ? <p className="text-lg text-center">{`There'is no locations detail, sorry.`}</p> : ""}
+
+                                        {data?.location?.map((v) => {
+
+                                            return (
+                                                <div key={v.id} className="mb-5 relative py-5 border-gray-500 border-b">
+                                                    <h4 className="font-medium">{v.name}</h4>
+                                                    <hr className="my-2 bg-gray-200 w-8/12" />
+                                                    <ul className=" px-4">
+                                                        <li><span>Climate: {v.climate}</span></li>
+                                                        <li><span>Terrain: {v.terrain}</span></li>
+                                                        <li><span>Surface Water: {v.surface_water} M</span></li>
+                                                    </ul>
+
+                                                    <div className="absolute bg-blue-500 w-6 h-1 bottom-0 left-0" />
+                                                    <div className="absolute bg-gray-500 w-1 h-3 bottom-0 right-0" />
+                                                    <div className="absolute bg-gray-500 w-1 h-1 top-0 left-0" />
+                                                </div>
+                                            )
+                                        })}
+                                    </div>
+                                </div>
+
+
+                                <div className="px-5 mt-14 text-justify">
+                                    <div className="border-l-4 px-2 border-rose-400">
+                                        <h3 className="text-2xl">List Vehicles</h3>
+                                    </div>
+                                    <div className="mt-5">
+                                        {data?.vehicle?.length == 0 ? <p className="text-lg text-center">{`There'is no available vehicle detail in this movie, sorry.`}</p> : ""}
+
+                                        {data?.vehicle?.map((v) => {
+                                            const pilotFind = data?.people?.find(p => p.url == v?.pilot)
+                                            console.log(pilotFind)
+                                            return (
+                                                <div key={v.id} className="mb-5 relative py-5 border-gray-500 border-r">
+                                                    <h4 className="font-medium">{v.name}</h4>
+                                                    <div className="flex justify-end">
+                                                        <hr className="my-2 bg-gray-200 w-5/12" />
+                                                    </div>
+                                                    <div className="px-2 text-black/90 my">
+                                                        <span>Description: {v.description}</span>
+                                                    </div>
+                                                    <ul className="px-4">
+                                                        <li><span>Pilot: {pilotFind?.name}</span></li>
+                                                        <li><span>Vehicle Type: {v.vehicle_class}</span></li>
+                                                        <li><span>Length: {v.length} ft</span></li>
+                                                    </ul>
+
+                                                    <div className="absolute bg-rose-500 w-6 h-1 bottom-0 right-0" />
+                                                    <div className="absolute bg-gray-500 w-1 h-4 top-0 right-0" />
                                                 </div>
                                             )
                                         })}
