@@ -29,7 +29,7 @@ export default function Index({ carouselImage }) {
     <>
       <Layout title={"Welcome to Web Studio Ghibli's Lover"}>
         {carouselImage != undefined ?
-          <div className="text-lg">
+          <div className="lg:text-lg">
             <Carousel infiniteLoop interval={5000} showArrows={false} showStatus={false} showThumbs={false} autoPlay swipeable={false} showIndicators={false} animationHandler={"fade"}>
               {carousel?.slice(0, 3)?.map((value) =>
                 <div key={value.id} className="h-96 md:h-screen w-full relative">
@@ -128,7 +128,7 @@ export default function Index({ carouselImage }) {
                         <p className="absolute bottom-0 text-lg">{value.release_date}</p>
                       </div>
                     </div>
-                    <Image src={value.image} alt={value.title} layout="fill" className="" quality={50} />
+                    <Image src={value.image} alt={value.title} layout="fill" className="" quality={50} placeholder="blur" blurDataURL={value.image} />
                   </div>
                 )}
               </div>
@@ -137,7 +137,7 @@ export default function Index({ carouselImage }) {
           : <Loading />
         }
 
-      </Layout >
+      </Layout>
     </>
   )
 }
