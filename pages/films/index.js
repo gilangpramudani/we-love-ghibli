@@ -3,6 +3,8 @@ import useSWR from "swr";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
+import Loading from "../../components/Loading";
+
 
 export default function Films() {
     const fetcher = (url) => {
@@ -15,8 +17,16 @@ export default function Films() {
     return (
         <>
             <Layout title={"Films List"}>
+
                 <div className="mt-20 mb-40 md:mt-20 md:mb-60">
-                    <h1 className="text-center text-3xl mb-5 md:mb-10 font-medium">{`Studio Ghibli's List Films`}</h1>
+                    <h1 className="text-center text-4xl mb-5 md:mb-10 font-medium">{`Studio Ghibli's List Films`}</h1>
+
+                    {isValidating && data == undefined ?
+                        <Loading />
+
+                        :
+                        <></>
+                    }
                     <div className="lg:grid lg:grid-cols-4 gap-5 md:px-10 md:grid md:grid-cols-2 lg:px-20">
                         {data?.map((value) =>
                             <div key={value.id} className="h-screen lg:h-96 w-full relative transition-all duration-300 ease-in-out  hover:-translate-y-2 hover:shadow-smoothblack/50 shadow-lg">

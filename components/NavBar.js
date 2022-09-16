@@ -15,7 +15,9 @@ export default function NavBar() {
             link: "/films"
         },
         {
-            name: "Ghibli's Story"
+            name: "Ghibli's Story",
+            link: "/ghibli-story"
+
         },
     ]
     console.log(router.asPath)

@@ -7,6 +7,31 @@
   src: url("../public/fonts/Lato-Light.ttf");
 }
 
+@layer utilities {
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    border-radius: 100vh;
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: black;
+    /* border-radius: 100vh; */
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: black/0.8;
+  }
+  ::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+}
+
+
 html,
 body {
   padding: 0;
